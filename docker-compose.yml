@@ -52,7 +52,7 @@ services:
       - ./python/data:/data
     networks:
       - backend
-    command: [ "python", "./import_json.py", "/data/deezer_20200131_fr_topk50.0.json", "top50fr" ]
+    command: [ "python", "./import_json.py", "/data/deezer_20200131_fr_topk50.0.json", "top50frs" ]
     depends_on:
       - db
 
