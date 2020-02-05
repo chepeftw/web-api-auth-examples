@@ -21,7 +21,7 @@ services:
     networks:
       - backend
     expose:
-      - "27017"
+      - "27017-27019"
     volumes:
       - mongo-db-data:/data/db
     restart: always
