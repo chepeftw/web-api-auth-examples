@@ -1,0 +1,62 @@
+version: '3.3'
+
+services:
+  node:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    expose:
+      - "8888"
+    ports:
+      - "127.0.0.1:49160:8888"
+    networks:
+      - backend
+    restart: always
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    networks:
+      - backend
+    expose:
+      - "27017"
+    volumes:
+      - mongo-db-data:/data/db
+    restart: always
+#    env_file: ./.db.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:27017"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  python_us:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    volumes:
+      - ./python/data:/data
+    networks:
+      - backend
+    command: [ "python", "./import_json.py", "/data/deezer_20200131_us_topk50.0.json", "top50us" ]
+    depends_on:
+      - db
+
+  python_fr:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    volumes:
+      - ./python/data:/data
+    networks:
+      - backend
+    command: [ "python", "./import_json.py", "/data/deezer_20200131_fr_topk50.0.json", "top50fr" ]
+    depends_on:
+      - db
+
+networks:
+  backend:
+
+volumes:
+  mongo-db-data:
