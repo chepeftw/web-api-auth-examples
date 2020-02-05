@@ -12,6 +12,7 @@ services:
     networks:
       - backend
     restart: always
+    env_file: ./.spotify.env
     depends_on:
       - db
 
