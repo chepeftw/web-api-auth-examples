@@ -16,5 +16,7 @@ const apiController = require('./apiController');
 //     .get(apiController.index);
 router.route('/rankings/:isrc')
     .get(apiController.view);
+router.route('/rankings_fr/:isrc')
+    .get(apiController.viewFr);
 // Export API routes
 module.exports = router;
