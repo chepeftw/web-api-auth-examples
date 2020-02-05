@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  node:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    expose:
+      - "8888"
+    ports:
+      - "127.0.0.1:49160:8888"
+    networks:
+      - backend
+    restart: always
+    env_file: ./.spotify.env
+    depends_on:
+      - db
+
+  db:
+    image: mongo:latest
+    networks:
+      - backend
+    expose:
+      - "27017"
+    volumes:
+      - mongo-db-data:/data/db
+    restart: always
+#    env_file: ./.db.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:27017"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+networks:
+  backend:
+
+volumes:
+  mongo-db-data:
