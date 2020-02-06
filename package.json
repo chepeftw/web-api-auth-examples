@@ -13,6 +13,11 @@
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "dotenv": "^8.2.0"
+  },
+  "scripts": {
+    "start": "node authorization_code/app.js",
+    "dev": "nodemon -r dotenv/config authorization_code/app.js"
   }
 }
