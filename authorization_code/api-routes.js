@@ -21,8 +21,8 @@ router.route('/rankings_fr/:isrc')
 
 // Import contact controller
 var surveyController = require('./controller/surveyController');
-// Contact routes
 router.route('/surveys')
+    .get(surveyController.index)
     .post(surveyController.new);
 
 router.route('/surveys/:user')

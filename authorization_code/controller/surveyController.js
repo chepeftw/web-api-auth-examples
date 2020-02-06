@@ -93,3 +93,13 @@ exports.delete = function (req, res) {
         });
     });
 };
+
+exports.index = function (req, res) {
+    console.log("Index!");
+    Survey.find({}).limit(5000).exec(function (err, docs) {
+        res.json({
+            message: 'All data',
+            data: docs
+        });
+    });
+};
