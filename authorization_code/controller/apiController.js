@@ -1,7 +1,7 @@
 // contactController.js
 // Import contact model
-const TopEntityUS = require('./apiModel_US');
-const TopEntityFR = require('./apiModel_FR');
+const TopEntityUS = require('../model/apiModel_US');
+const TopEntityFR = require('../model/apiModel_FR');
 
 exports.view = function (req, res) {
     console.log("View!");

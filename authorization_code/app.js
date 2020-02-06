@@ -50,6 +50,8 @@ const app = express();
 app.use(bodyParser.urlencoded({extended: true}))
     .use(bodyParser.json());
 
+
+
 // Connect to Mongoose and set connection variable
 mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true});
 const db = mongoose.connection;

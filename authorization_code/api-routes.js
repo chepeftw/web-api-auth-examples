@@ -10,7 +10,7 @@ router.get('/', function (req, res) {
 });
 
 // Import contact controller
-const apiController = require('./apiController');
+const apiController = require('./controller/apiController');
 // Contact routes
 // router.route('/rankings')
 //     .get(apiController.index);
@@ -18,5 +18,17 @@ router.route('/rankings/:isrc')
     .get(apiController.view);
 router.route('/rankings_fr/:isrc')
     .get(apiController.viewFr);
+
+// Import contact controller
+var surveyController = require('./controller/surveyController');
+// Contact routes
+router.route('/surveys')
+    .post(surveyController.new);
+
+router.route('/surveys/:user')
+    .get(surveyController.view)
+    .delete(surveyController.delete);
+
+
 // Export API routes
 module.exports = router;
