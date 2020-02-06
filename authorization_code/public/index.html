@@ -34,7 +34,7 @@
 
         #chartdiv_tracks {
             width: 100%;
-            height: 700px;
+            height: 1200px;
         }
 
         #chartdiv_histogram {
@@ -506,7 +506,7 @@
 
                 var isrcPromises = [];
                 $.ajax({
-                    url: 'https://api.spotify.com/v1/me/top/tracks',
+                    url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
                     headers: {
                         'Authorization': 'Bearer ' + access_token
                     },

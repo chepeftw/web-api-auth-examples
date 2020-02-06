@@ -8,14 +8,16 @@ const surveySchema = mongoose.Schema({
         range1K_5K: Number,
         range5K_10K: Number,
         range10K_50K: Number,
-        range50Kplus: Number
+        range50Kplus: Number,
+        unrated: Number
     },
     fr: {
         range0_1K: Number,
         range1K_5K: Number,
         range5K_10K: Number,
         range10K_50K: Number,
-        range50Kplus: Number
+        range50Kplus: Number,
+        unrated: Number
     }
 });
 

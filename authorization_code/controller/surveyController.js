@@ -33,12 +33,14 @@ function saveSurvey(err, survey, req, res) {
     survey.us.range5K_10K = req.body.us.top5K_10K;
     survey.us.range10K_50K = req.body.us.top10K_50K;
     survey.us.range50Kplus = req.body.us.top50Kplus;
+    survey.us.unrated = req.body.us.unrated;
 
     survey.fr.range0_1K = req.body.fr.top0_1K;
     survey.fr.range1K_5K = req.body.fr.top1K_5K;
     survey.fr.range5K_10K = req.body.fr.top5K_10K;
     survey.fr.range10K_50K = req.body.fr.top10K_50K;
     survey.fr.range50Kplus = req.body.fr.top50Kplus;
+    survey.fr.unrated = req.body.fr.unrated;
     // save the contact and check for errors
     survey.save(function (err) {
         // Check for validation error
