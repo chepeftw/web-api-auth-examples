@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 // Setup schema
 const surveySchema = mongoose.Schema({
     user: String,
+    location: String,
     us: {
         range0_1K: Number,
         range1K_5K: Number,

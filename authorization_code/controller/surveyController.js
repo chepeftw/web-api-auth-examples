@@ -28,6 +28,8 @@ function saveSurvey(err, survey, req, res) {
     console.log("req.body.user = " + req.body.user);
     console.log("req.body.user = " + req.body.us.top0_1K);
 
+    survey.location = req.body.location;
+
     survey.us.range0_1K = req.body.us.top0_1K;
     survey.us.range1K_5K = req.body.us.top1K_5K;
     survey.us.range5K_10K = req.body.us.top5K_10K;
