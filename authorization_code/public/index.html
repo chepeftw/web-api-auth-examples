@@ -376,9 +376,9 @@
                             coolnessFactorArtists = coolnessFactorArtists / response.items.length;
                         }
                         document.getElementById('quick-coolness-factor-show-1').innerHTML = coolnessFactorArtists;
-                        // topArtistsData.sort(function (a, b) {
-                        //     return b.popularity - a.popularity
-                        // });
+                        topArtistsData.sort(function (a, b) {
+                            return b.popularity - a.popularity
+                        });
 
                         am4core.ready(function () {
                             am4core.useTheme(am4themes_animated);
@@ -570,9 +570,9 @@
                         }
                         document.getElementById('quick-coolness-factor-show-2').innerHTML = coolnessFactorTracks;
 
-                        // topTracksData.sort(function (a, b) {
-                        //     return b.popularity - a.popularity
-                        // });
+                        topTracksData.sort(function (a, b) {
+                            return b.popularity - a.popularity
+                        });
 
                         Promise.all(isrcPromises)
                             .then(function (values) {
