@@ -106,7 +106,7 @@
     <br>
 
     <div class="col-12">
-        <h2>Your Top Tracks Coolnes (US & FR)</h2>
+        <h2>Your Top Tracks Coolness (US & FR)</h2>
     </div>
     <div class="col-12">
         <div id="chartdiv_histogram2"></div>
@@ -520,18 +520,31 @@
                             var item = response.items[i];
                             coolnessFactorTracks += item.popularity;
                             var artist = "";
-                            for (var j = 0; j < item.artists.length; j++) {
-                                artist += item.artists[j].name;
-                                if (j > 0 && (j + 1) !== item.artists.length) {
-                                    artist += ", ";
-                                }
+                            if (item.artists.length > 0) {
+                                artist = item.artists[0].name;
                             }
+                            // for (var j = 0; j < item.artists.length; j++) {
+                            //     artist += item.artists[j].name;
+                            //     if (j > 0 && (j + 1) !== item.artists.length) {
+                            //         artist += ", ";
+                            //     }
+                            // }
 
                             isrcPromises.push(ajaxApiRanking("/api/rankings/", item.external_ids.isrc));
                             isrcPromises.push(ajaxApiRanking("/api/rankings_fr/", item.external_ids.isrc));
 
+                            var trackName = artist + " - " + item.name;
+                            var substringLength = 40;
+                            if ( trackName.length > substringLength ) {
+                                if (item.name.length > substringLength) {
+                                    trackName = item.name.substr(0, substringLength) + '...';
+                                } else {
+                                    trackName = item.name;
+                                }
+                            }
+
                             topTracksData.push({
-                                "name": artist + " - " + item.name,
+                                "name": trackName,
                                 "popularity": item.popularity,
                                 "href": item.album.images[2].url
                             });
@@ -721,8 +734,8 @@
                             var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
                             categoryAxis.dataFields.category = "name";
                             categoryAxis.renderer.grid.template.strokeOpacity = 0;
-                            categoryAxis.renderer.minGridDistance = 10;
-                            categoryAxis.renderer.labels.template.dx = -40;
+                            categoryAxis.renderer.minGridDistance = 5;
+                            categoryAxis.renderer.labels.template.dx = -25;
                             categoryAxis.renderer.minWidth = 120;
                             categoryAxis.renderer.tooltip.dx = -40;
 
