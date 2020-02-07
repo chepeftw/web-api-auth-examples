@@ -224,16 +224,20 @@
         </tbody>
     </table>
     <br>
-    <p>Or for the data scientist <strong>geeks</strong>, this json: {{toJSON this}}</p>
+    <p>Or for the data scientist <strong>geeks</strong>, this json: <br>
+        <!--        <span style="overflow: hidden;">-->
+        {{toJSON this}}
+        <!--        </span>-->
+    </p>
     <button id="donate-data-button" type="button" class="btn btn-primary btn-lg btn-block" style="display:none;">
-        Donate Data
+        Donate Your Stats 📊
     </button>
     <div id="donate-data-post-information" style="display:none;">
         <br>
         <p><strong>Your data is already in the system ✅,</strong> we know due to the hash of your username 🤓. You can
             update your data (in case you think it has changed) or opt out as well.</p>
         <button id="update-data-button" type="button" class="btn btn-primary btn-lg btn-block">
-            Update Data 🚀
+            Update Your Stats 🚀
         </button>
         <button id="optout-data-button" type="button" class="btn btn-danger btn-lg btn-block">
             Opt Out 👋
@@ -330,6 +334,7 @@
         } else {
             if (access_token) {
                 var userId = 0;
+                var country = "";
                 var dataToSend = "";
 
                 $.ajax({
@@ -340,6 +345,7 @@
                     success: function (response) {
                         userProfilePlaceholder.innerHTML = userProfileTemplate(response);
                         userId = response.id;
+                        country = response.country;
 
                         $('#login').hide();
                         $('#loggedin').show();
@@ -545,7 +551,7 @@
 
                             var trackName = artist + " - " + item.name;
                             var substringLength = 40;
-                            if ( trackName.length > substringLength ) {
+                            if (trackName.length > substringLength) {
                                 if (item.name.length > substringLength) {
                                     trackName = item.name.substr(0, substringLength) + '...';
                                 } else {
@@ -580,6 +586,7 @@
                                 sha512(userId).then(function (x) {
                                     rawDataToSend = {
                                         user: x,
+                                        location: country,
                                         us: {
                                             top0_1K: top_us[0],
                                             top1K_5K: top_us[1],
@@ -604,47 +611,51 @@
                                         url: '/api/surveys/' + x,
                                         success: function (response) {
                                             console.log(response.data);
+
+                                            document.getElementById('update-data-button').addEventListener('click', function () {
+                                                $.ajax({
+                                                    url: '/api/surveys/',
+                                                    type: 'post',
+                                                    data: dataToSend,
+                                                    success: function () {
+                                                        alert("Data updated");
+                                                    }
+                                                });
+                                            }, false);
+
+                                            document.getElementById('optout-data-button').addEventListener('click', function () {
+                                                $.ajax({
+                                                    url: '/api/surveys/' + x,
+                                                    type: 'delete',
+                                                    data: dataToSend,
+                                                    success: function () {
+                                                        alert("Data deleted :)");
+                                                        document.getElementById("donate-data-button").style.display = 'block';
+                                                        document.getElementById("donate-data-post-information").style.display = 'none';
+                                                    }
+                                                });
+                                            }, false);
+
+                                            document.getElementById('donate-data-button').addEventListener('click', function () {
+                                                document.getElementById("donate-data-button").style.display = 'none';
+                                                $.ajax({
+                                                    url: '/api/surveys/',
+                                                    type: 'post',
+                                                    data: dataToSend,
+                                                    success: function (response) {
+                                                        alert("Thanks! :)");
+                                                        console.log(response.message);
+                                                        document.getElementById("donate-data-post-information").style.display = 'block';
+                                                        document.getElementById("donate-data-button").style.display = 'none';
+                                                    }
+                                                });
+                                            }, false);
+
                                             if (response.data != null) {
                                                 console.log("In the system");
                                                 document.getElementById("donate-data-post-information").style.display = 'block';
-
-                                                document.getElementById('update-data-button').addEventListener('click', function () {
-                                                    $.ajax({
-                                                        url: '/api/surveys/',
-                                                        type: 'post',
-                                                        data: dataToSend,
-                                                        success: function () {
-                                                            alert("Data updated");
-                                                        }
-                                                    });
-                                                }, false);
-
-                                                document.getElementById('optout-data-button').addEventListener('click', function () {
-                                                    $.ajax({
-                                                        url: '/api/surveys/' + x,
-                                                        type: 'delete',
-                                                        data: dataToSend,
-                                                        success: function () {
-                                                            alert("Data deleted, we will reload this page now :)");
-                                                            location.reload();
-                                                        }
-                                                    });
-                                                }, false);
                                             } else {
                                                 document.getElementById("donate-data-button").style.display = 'block';
-                                                document.getElementById('donate-data-button').addEventListener('click', function () {
-                                                    document.getElementById("donate-data-button").style.display = 'none';
-                                                    $.ajax({
-                                                        url: '/api/surveys/',
-                                                        type: 'post',
-                                                        data: dataToSend,
-                                                        success: function (response) {
-                                                            alert("Thanks! We will reload this page now :)");
-                                                            console.log(response.message);
-                                                            location.reload();
-                                                        }
-                                                    });
-                                                }, false);
                                             }
                                         }
                                     });
