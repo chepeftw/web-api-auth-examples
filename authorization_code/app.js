@@ -132,34 +132,34 @@ app.get('/callback', function (req, res) {
                 var access_token = body.access_token,
                     refresh_token = body.refresh_token;
 
-                var options = {
-                    url: 'https://api.spotify.com/v1/me',
-                    headers: {'Authorization': 'Bearer ' + access_token},
-                    json: true
-                };
-
-                // use the access token to access the Spotify Web API
-                request.get(options, function (error, response, body) {
-                    console.log(body);
-                });
-
-                var options2 = {
-                    url: 'https://api.spotify.com/v1/me/top/artists',
-                    headers: {'Authorization': 'Bearer ' + access_token},
-                    json: true
-                };
-                request.get(options2, function (error, response, body) {
-                    console.log(body);
-                });
-
-                var options3 = {
-                    url: 'https://api.spotify.com/v1/me/top/tracks',
-                    headers: {'Authorization': 'Bearer ' + access_token},
-                    json: true
-                };
-                request.get(options3, function (error, response, body) {
-                    console.log(body);
-                });
+                // var options = {
+                //     url: 'https://api.spotify.com/v1/me',
+                //     headers: {'Authorization': 'Bearer ' + access_token},
+                //     json: true
+                // };
+                //
+                // // use the access token to access the Spotify Web API
+                // request.get(options, function (error, response, body) {
+                //     console.log(body);
+                // });
+                // //
+                // var options2 = {
+                //     url: 'https://api.spotify.com/v1/me/top/artists',
+                //     headers: {'Authorization': 'Bearer ' + access_token},
+                //     json: true
+                // };
+                // request.get(options2, function (error, response, body) {
+                //     console.log(body);
+                // });
+                //
+                // var options3 = {
+                //     url: 'https://api.spotify.com/v1/me/top/tracks',
+                //     headers: {'Authorization': 'Bearer ' + access_token},
+                //     json: true
+                // };
+                // request.get(options3, function (error, response, body) {
+                //     console.log(body);
+                // });
 
                 // we can also pass the token to the browser to make requests from there
                 res.redirect('/#' +

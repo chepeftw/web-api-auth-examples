@@ -52,7 +52,7 @@
             height: 300px;
         }
 
-        #logo-image-gif, #logo-image-static {
+        .logo-image-gif, #logo-image-static {
             width: 50%;
             height: 50%;
         }
@@ -61,8 +61,14 @@
 
 <body>
 
+<div class="container text-center" id="token-expired">
+    <img class="rounded mx-auto d-block logo-image-gif" src="/coolness_probe.gif"/>
+    <h1>Oops, it seems that your token has expired, you just need to refresh the token 😊</h1>
+    <a href="/login" class="btn btn-primary">Refresh Token</a>
+</div>
+
 <div class="container text-center" id="login">
-    <img id="logo-image-gif" class="rounded mx-auto d-block" src="/coolness_probe.gif"/>
+    <img class="rounded mx-auto d-block logo-image-gif" src="/coolness_probe.gif"/>
     <h1>Welcome to the Coolness Probe</h1>
     <p>Start by logging in into your Spotify account 😊🎶🎵</p>
     <a href="/login" class="btn btn-primary">Log in with Spotify</a>
@@ -116,7 +122,8 @@
 
     <div class="col-12">
         <h2>Support the Sonos Voice Experience (SVE) team ❤️</h2>
-        <p class="text-left">You can choose to use the service only in view mode, to compare your Spotify’s favorite tracks with the rest
+        <p class="text-left">You can choose to use the service only in view mode, to compare your Spotify’s favorite
+            tracks with the rest
             of the users in FR and US (using a dataset we receive from Deezer). By default the tool does not store any
             of your information.
             To help SVE team understand better how personal taste spreads through the music catalog, we would love that
@@ -182,10 +189,10 @@
         <tr>
             <th>User</th>
             <td>
-<!--                <span style="width:100px; word-wrap:break-word; display:inline-block;">-->
-                    {{user}}
-<!--                </span>-->
-                <br> (we will store the sha512 hash of your real Spotify ID for anonymity purposes 😊, which
+                <span style="overflow-wrap: break-word; word-wrap: break-word;">
+                    {{breakStr user}}
+                </span>
+                (we will store the sha512 hash of your real Spotify ID for anonymity purposes 😊, which
                 you can find in the first section of this page)
             </td>
         </tr>
@@ -225,9 +232,9 @@
     </table>
     <br>
     <p class="text-left">Or for the data scientist <strong>geeks</strong>, this json: <br>
-        <!--        <span style="overflow: hidden;">-->
-        {{toJSON this}}
-        <!--        </span>-->
+        <span style="overflow-wrap: break-word; word-wrap: break-word;">
+            {{toJSON this}}
+        </span>
     </p>
     <button id="donate-data-button" type="button" class="btn btn-primary btn-lg btn-block" style="display:none;">
         Donate Your Stats 📊
@@ -297,8 +304,13 @@
             return new Handlebars.SafeString(JSON.stringify(object));
         });
 
-        Handlebars.registerHelper('toJSONEncode', function (object) {
-            return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
+        Handlebars.registerHelper('breakStr', function (object) {
+            var chunks = object.match(/.{1,48}/g);
+            var output = "";
+            for (var i = 0; i < chunks.length; i++) {
+                output += chunks[i] + "<br>";
+            }
+            return new Handlebars.SafeString(output);
         });
 
         /**
@@ -349,6 +361,10 @@
 
                         $('#login').hide();
                         $('#loggedin').show();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#token-expired').show();
                     }
                 });
 
@@ -517,6 +533,10 @@
                             }, 2000);
 
                         }); // end am4core.ready()
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#token-expired').show();
                     }
                 });
 
@@ -885,24 +905,20 @@
 
                         }); // end am4core.ready()
 
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#token-expired').show();
                     }
                 });
+
+                $('#token-expired').hide();
             } else {
                 // render initial screen
                 $('#login').show();
                 $('#loggedin').hide();
+                $('#token-expired').hide();
             }
-
-            // document.getElementById('obtain-new-token').addEventListener('click', function () {
-            //     $.ajax({
-            //         url: '/refresh_token',
-            //         data: {
-            //             'refresh_token': refresh_token
-            //         }
-            //     }).done(function (data) {
-            //         access_token = data.access_token;
-            //     });
-            // }, false);
         }
     })();
 </script>
